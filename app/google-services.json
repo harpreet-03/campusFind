@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "556122749368",
+    "project_id": "campusfinder-1",
+    "storage_bucket": "campusfinder-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556122749368:android:5b7100155a24b3bc62f74d",
+        "android_client_info": {
+          "package_name": "com.example.finder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXjo_xdp-MJy86uBbHdQ5zdysrpKjiIkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
