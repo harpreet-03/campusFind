@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
@@ -57,6 +58,12 @@ class EditItemActivity : AppCompatActivity() {
         // Note: Image selection logic is not implemented in this snippet
         btnSelectImage.setOnClickListener {
             Toast.makeText(this, "Image selection coming soon!", Toast.LENGTH_SHORT).show()
+        }
+
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+
+        toolbar.setNavigationOnClickListener {
+            finish()
         }
     }
 

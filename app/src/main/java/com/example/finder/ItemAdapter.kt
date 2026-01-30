@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
+import com.google.android.material.button.MaterialButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
@@ -39,7 +39,8 @@ class ItemAdapter : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()
         private val ivMore: ImageView = itemView.findViewById(R.id.ivMore)
         private val tvZone: TextView = itemView.findViewById(R.id.tvZone)
 
-        private val btnMessage: LinearLayout = itemView.findViewById(R.id.btnMessage)
+        val btnMessage: ImageView = itemView.findViewById(R.id.btnMessage)
+        val btnShare: ImageView = itemView.findViewById(R.id.btnShare)
 
         fun bind(item: Item) {
             tvTitle.text = item.title

@@ -1,5 +1,6 @@
 package com.example.finder
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -9,6 +10,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -64,6 +66,13 @@ class AddItemActivity : AppCompatActivity() {
             } else {
                 uploadImageAndSaveItem()
             }
+        }
+
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+
+        toolbar.setNavigationOnClickListener {
+            // Just close this activity to go back to the previous one (Home)
+            finish()
         }
     }
 
