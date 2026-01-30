@@ -81,8 +81,9 @@ class Home : AppCompatActivity() {
                     false
                 }
                 R.id.nav_profile -> {
-                    Toast.makeText(this, "Profile coming soon", Toast.LENGTH_SHORT).show()
-                    false
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                    true
                 }
                 else -> false
             }
