@@ -77,7 +77,7 @@ class ItemAdapter : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         val userName = document.getString("name")
-                        val userImage = document.getString("imageUrl")
+                        val userImage = document.getString("profileImageUrl")
 
                         tvUserName.text = userName
 

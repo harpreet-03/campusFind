@@ -105,7 +105,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_acc"
+            android:src="@drawable/send"
             app:tint="#262626" />
 
         <View
