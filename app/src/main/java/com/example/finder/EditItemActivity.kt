@@ -19,7 +19,6 @@ class EditItemActivity : AppCompatActivity() {
 
     private lateinit var etTitle: EditText
     private lateinit var etZone: EditText
-    private lateinit var etContact: EditText
     private lateinit var etDesc: EditText
     private lateinit var rgType: RadioGroup
     private lateinit var rbLost: RadioButton
@@ -40,7 +39,6 @@ class EditItemActivity : AppCompatActivity() {
 
         etTitle = findViewById(R.id.etTitle)
         etZone = findViewById(R.id.etZone)
-        etContact = findViewById(R.id.etContact)
         etDesc = findViewById(R.id.etDesc)
         rgType = findViewById(R.id.rgType)
         rbLost = findViewById(R.id.rbLost)
@@ -82,7 +80,6 @@ class EditItemActivity : AppCompatActivity() {
     private fun populateUI(item: Item) {
         etTitle.setText(item.title)
         etZone.setText(item.zone)
-        etContact.setText(item.contactInfo)
         etDesc.setText(item.description)
 
         if (item.type == "Lost") {
@@ -99,11 +96,10 @@ class EditItemActivity : AppCompatActivity() {
     private fun updateItem() {
         val title = etTitle.text.toString().trim()
         val zone = etZone.text.toString().trim()
-        val contact = etContact.text.toString().trim()
         val desc = etDesc.text.toString().trim()
         val type = if (rbLost.isChecked) "Lost" else "Found"
 
-        if (title.isEmpty() || zone.isEmpty() || contact.isEmpty() || desc.isEmpty()) {
+        if (title.isEmpty() || zone.isEmpty() || desc.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
@@ -111,7 +107,6 @@ class EditItemActivity : AppCompatActivity() {
         val itemData = mapOf(
             "title" to title,
             "zone" to zone,
-            "contactInfo" to contact,
             "description" to desc,
             "type" to type
         )

@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -23,6 +24,7 @@ class Home : AppCompatActivity() {
     private lateinit var adapter: ItemAdapter
     private lateinit var viewModel: ItemViewModel
     private lateinit var tabLayout: TabLayout
+    private lateinit var progressBar: ProgressBar
 
     // To track which tab is currently active (Lost vs Found)
     private var currentType = "Lost"
@@ -47,6 +49,14 @@ class Home : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
         viewModel.items.observe(this) { itemList ->
             adapter.submitList(itemList)
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            if (isLoading) {
+                progressBar.visibility = View.VISIBLE
+            } else {
+                progressBar.visibility = View.GONE
+            }
         }
 
         // --- 4. Setup Tabs (Lost / Found) ---
@@ -88,6 +98,8 @@ class Home : AppCompatActivity() {
                 else -> false
             }
         }
+        
+        progressBar = findViewById(R.id.progressBar)
 
         // --- 6. Initial Load ---
         viewModel.loadItems(currentType)

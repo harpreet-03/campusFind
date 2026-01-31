@@ -9,7 +9,6 @@ data class Item(
     val description: String = "",
     val zone: String = "",
     val type: String = "Lost",
-    val contactInfo: String = "",
     val imageUrl: String = "",
     val timestamp: Timestamp? = null
 )
