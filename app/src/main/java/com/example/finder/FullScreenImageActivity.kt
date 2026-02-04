@@ -1,35 +1,51 @@
 package com.example.finder
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class FullScreenImageActivity : AppCompatActivity() {
+
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_image)
 
-        // 1. Get the Image URL from the Intent
-        val imageUrl = intent.getStringExtra("image_url")
-        val imgFullScreen = findViewById<ImageView>(R.id.imgFullScreen)
+        val imageView = findViewById<ImageView>(R.id.imgFullScreen)
         val btnClose = findViewById<ImageButton>(R.id.btnClose)
 
-        // 2. Load the image into the full screen view
-        if (imageUrl != null) {
-            Glide.with(this)
-                .load(imageUrl)
-                .into(imgFullScreen)
+        btnClose.setOnClickListener { finish() }
+
+        val itemId = intent.getStringExtra("itemId")
+        if (itemId.isNullOrEmpty()) {
+            finish()
+            return
         }
 
-        // 3. Handle Close Button
-        btnClose.setOnClickListener {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val snap = db.collection("items").document(itemId).get().await()
+            val item = snap.toObject(Item::class.java)
 
-            finish() // Closes this activity and goes back
+            withContext(Dispatchers.Main) {
+                if (item == null || item.imageUrl.isNullOrEmpty()) {
+                    finish()
+                    return@withContext
+                }
+
+                Glide.with(this@FullScreenImageActivity)
+                    .load(item.imageUrl)
+                    .fitCenter()
+                    .into(imageView)
+            }
         }
     }
 }

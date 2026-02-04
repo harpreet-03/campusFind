@@ -10,5 +10,8 @@ data class Item(
     val zone: String = "",
     val type: String = "Lost",
     val imageUrl: String = "",
-    val timestamp: Timestamp? = null
+    val timestamp: Timestamp? = null,
+    val imageHash: String = "",
+    val aiLabels: List<String> = emptyList()
+
 )

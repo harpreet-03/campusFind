@@ -55,5 +55,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-firestore")
     implementation("de.hdodenhof:circleimageview:3.1.0")
-
+    implementation("com.google.mlkit:image-labeling:17.0.9")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.google.mlkit:image-labeling:17.0.9")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation("com.google.ai.client.generativeai:generativeai:0.5.0")
 }

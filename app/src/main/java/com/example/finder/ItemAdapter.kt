@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.google.android.material.button.MaterialButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
@@ -49,22 +48,29 @@ class ItemAdapter : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()
 
             if (item.timestamp != null) {
                 val date = item.timestamp.toDate()
-                val format = java.text.SimpleDateFormat("dd MMM, hh:mm a", java.util.Locale.getDefault())
+                val format = java.text.SimpleDateFormat(
+                    "dd MMM, hh:mm a",
+                    java.util.Locale.getDefault()
+                )
                 tvDate.text = format.format(date)
             } else {
                 tvDate.text = "Just now"
             }
 
+            // main post image
             if (item.imageUrl.isNotEmpty()) {
                 imgItem.visibility = View.VISIBLE
                 Glide.with(itemView.context)
                     .load(item.imageUrl)
                     .placeholder(R.drawable.ic_acc)
+                    .centerCrop()
                     .into(imgItem)
 
+                // open full-screen image from home
                 imgItem.setOnClickListener {
-                    val intent = Intent(itemView.context, FullScreenImageActivity::class.java)
-                    intent.putExtra("image_url", item.imageUrl)
+                    val intent =
+                        Intent(itemView.context, FullScreenImageActivity::class.java)
+                    intent.putExtra("itemId", item.id)   // IMPORTANT: use itemId
                     itemView.context.startActivity(intent)
                 }
             } else {
@@ -72,20 +78,33 @@ class ItemAdapter : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()
                 imgItem.setOnClickListener(null)
             }
 
+            // open detail screen when tapping the row
+            itemView.setOnClickListener {
+                val intent =
+                    Intent(itemView.context, ItemDetailActivity::class.java)
+                intent.putExtra("itemId", item.id)
+                itemView.context.startActivity(intent)
+            }
+
+            // load user name + profile photo
             val db = FirebaseFirestore.getInstance()
             db.collection("users").document(item.userId).get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
-                        val userName = document.getString("name")
-                        val userImage = document.getString("profileImageUrl")
+                        val userName = document.getString("name") ?: "Unknown"
+                        val userImage = document.getString("photoUrl")  // KEY must match Firestore
 
                         tvUserName.text = userName
 
-                        if (userImage?.isNotEmpty() == true) {
+                        if (!userImage.isNullOrEmpty()) {
                             Glide.with(itemView.context)
                                 .load(userImage)
                                 .placeholder(R.drawable.ic_acc)
+                                .error(R.drawable.ic_acc)
+                                .circleCrop()
                                 .into(imgUser)
+                        } else {
+                            imgUser.setImageResource(R.drawable.ic_acc)
                         }
                     }
                 }
@@ -99,7 +118,11 @@ class ItemAdapter : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()
             }
 
             btnMessage.setOnClickListener {
-                Toast.makeText(itemView.context, "Chat feature coming soon!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    itemView.context,
+                    "Chat feature coming soon!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -110,15 +133,18 @@ class ItemAdapter : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()
             popup.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.action_edit -> {
-                        val intent = Intent(itemView.context, EditItemActivity::class.java)
+                        val intent =
+                            Intent(itemView.context, EditItemActivity::class.java)
                         intent.putExtra("ITEM_ID", item.id)
                         itemView.context.startActivity(intent)
                         true
                     }
+
                     R.id.action_delete -> {
                         showDeleteConfirmationDialog(item)
                         true
                     }
+
                     else -> false
                 }
             }
@@ -141,10 +167,18 @@ class ItemAdapter : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()
             db.collection("items").document(item.id)
                 .delete()
                 .addOnSuccessListener {
-                    Toast.makeText(itemView.context, "Post deleted successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        itemView.context,
+                        "Post deleted successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(itemView.context, "Error deleting post: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        itemView.context,
+                        "Error deleting post: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         }
     }

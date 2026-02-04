@@ -87,8 +87,9 @@ class Home : AppCompatActivity() {
                     false
                 }
                 R.id.nav_search -> {
-                    Toast.makeText(this, "AI Search coming soon", Toast.LENGTH_SHORT).show()
-                    false
+                    val intent = Intent(this, SearchActivity::class.java)
+                    startActivity(intent)
+                    true
                 }
                 R.id.nav_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
