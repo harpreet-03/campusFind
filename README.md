@@ -49,4 +49,4 @@ CampusFinder is an Android application designed to help students and staff effic
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/harpreet-03/CampusFinder.git
+   git clone https://github.com/harpreet-03/campusFind
